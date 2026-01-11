@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultation Room</title>
+    <style>
+        /* --- Global Styles --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: #202124;
+            color: white;
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- LOBBY SCREEN --- */
+        #lobby-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #202124;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lobby-box {
+            background: #3c4043;
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        input { padding: 10px; font-size: 1rem; margin-right: 10px; }
+        .join-btn { padding: 10px 20px; font-size: 1rem; cursor: pointer; background-color: #0f9d58; color: white; border: none; }
+        .hidden { display: none !important; }
+
+        /* --- VIDEO AREA --- */
+        h1 { margin: 20px 0; font-weight: 300; }
+        .video-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            width: 90%;
+            max-width: 1200px;
+            flex-grow: 1;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .video-card {
+            position: relative;
+            background: #3c4043;
+            border-radius: 12px;
+            overflow: hidden;
+            width: 100%;
+            max-width: 600px;
+            aspect-ratio: 16/9;
+        }
+
+        video { width: 100%; height: 100%; object-fit: cover; background-color: black; }
+        #local-video { transform: scaleX(-1); } /* Mirror effect */
+        
+        .label {
+            position: absolute; bottom: 10px; left: 10px;
+            background: rgba(0,0,0,0.5); padding: 5px 10px; border-radius: 4px;
+        }
+
+        /* --- CONTROL BUTTONS --- */
+        .controls {
+            background-color: #3c4043;
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .btn-action {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+            background-color: #5f6368; /* Default Grey */
+            transition: 0.2s;
+        }
+
+        .btn-action:hover { background-color: #70757a; }
+
+        /* Style for when button is OFF (Red) */
+        .off {
+            background-color: #ea4335 !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="lobby-screen">
+        <div class="lobby-box">
+            <h2>Join Consultation</h2>
+            <br>
+            <input type="text" id="room-input" placeholder="Enter Room Name...">
+            <button class="join-btn" id="join-btn">Join Room</button>
+        </div>
+    </div>
+
+    <h1 id="room-display">Consultation Room</h1>
+
+    <div class="video-container">
+        <div class="video-card">
+            <video id="local-video" autoplay playsinline muted></video>
+            <div class="label">You</div>
+        </div>
+        <div class="video-card">
+            <video id="remote-video" autoplay playsinline></video>
+            <div class="label">Remote User</div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button id="mic-btn" class="btn-action">Mute Mic</button>
+        <button id="camera-btn" class="btn-action">Stop Camera</button>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="client.js"></script>
+</body>
+</html>
